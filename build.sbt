@@ -2,7 +2,7 @@ name := "advent-of-code-2019"
 organization := "umbra"
 version := "0.1"
 scalaVersion := "2.13.0"
-maintainer := "mikkom@umbra3d.com"
+maintainer := "mikkom@iki.fi"
 autoCompilerPlugins := true
 scalacOptions ++= Seq(
   "-deprecation", // Emit warning and location for usages of deprecated APIs.
