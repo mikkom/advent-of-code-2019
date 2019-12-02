@@ -9,7 +9,7 @@ object OpCode {
 }
 
 object IntCodes {
-  def executeOps(mem: Array[Int], i: Int = 0): Option[Int] = {
+  private def executeOps(mem: Array[Int], i: Int = 0): Option[Int] = {
     def execBinaryOp(fn: (Int, Int) => Int) = {
       mem(mem(i + 3)) = fn(mem(mem(i + 1)), mem(mem(i + 2)))
       executeOps(mem, i + 4)
