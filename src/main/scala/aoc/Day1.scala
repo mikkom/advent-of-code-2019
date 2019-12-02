@@ -14,7 +14,7 @@ object Mass {
     x.value.compare(y.value)
 }
 
-object Day1 {
+object FuelCalculations {
   def requiredFuel(mass: Mass) = Mass(mass.value / 3 - 2)
 
   def totalRequiredFuel(mass: Mass) =
@@ -28,8 +28,8 @@ object Day1 {
   def answerPart2(masses: List[Mass]) = masses.map(totalRequiredFuel).combineAll
 }
 
-object Main extends App {
-  import Day1._
+object Day1 extends App {
+  import FuelCalculations._
 
   val input = Source.fromResource("input-day1.txt").getLines().toList
   val masses = input.map(str => Mass(str.toInt))
