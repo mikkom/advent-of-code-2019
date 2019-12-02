@@ -1,5 +1,7 @@
 package aoc
 
+import cats.implicits._
+
 import scala.io.Source
 
 object OpCode {
@@ -10,15 +12,22 @@ object OpCode {
 
 object IntCodes {
   private def executeOps(mem: Array[Int], i: Int = 0): Option[Int] = {
+    def safeGet(idx: Int): Option[Int] =
+      if (mem.length > idx) Some(mem(idx)) else None
+
     def execBinaryOp(fn: (Int, Int) => Int) = {
-      mem(mem(i + 3)) = fn(mem(mem(i + 1)), mem(mem(i + 2)))
-      executeOps(mem, i + 4)
+      (for {
+        addresses <- (i + 1 to i + 3).toList.traverse(safeGet)
+        List(p1, p2, _) <- addresses.traverse(safeGet)
+      } yield {
+        mem(addresses.last) = fn(p1, p2)
+      }).flatMap(_ => executeOps(mem, i + 4))
     }
 
-    mem(i) match {
+    safeGet(i).flatMap {
       case OpCode.ADD  => execBinaryOp(_ + _)
       case OpCode.MUL  => execBinaryOp(_ * _)
-      case OpCode.HALT => Some(mem(0))
+      case OpCode.HALT => safeGet(0)
       case _           => None
     }
   }
